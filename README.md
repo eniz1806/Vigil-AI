@@ -258,6 +258,25 @@ def assert_polite(result, **kwargs):
 
 Plugins are auto-discovered via Python entry points.
 
+## How Vigil Compares
+
+| | Vigil | DeepEval | Promptfoo | RAGAS |
+|---|:---:|:---:|:---:|:---:|
+| **Setup** | `pip install` and go | Requires account signup | Node.js + YAML config | pip install + config |
+| **Write tests in** | Python (pytest) | Python (pytest) | YAML | Python |
+| **Zero config** | Yes | No | No | No |
+| **Agent testing** | Functions, HTTP, CLI | Functions only | HTTP, CLI | RAG only |
+| **Async support** | Built-in | Limited | N/A | No |
+| **Cost tracking** | Auto (20+ models) | Manual | No | No |
+| **Snapshot testing** | Built-in | No | No | No |
+| **LLM-as-judge** | Yes | Yes | Yes | Yes |
+| **Plugin system** | Yes | No | Yes | No |
+| **CI/GitHub Action** | Included | Separate | Separate | No |
+| **Cloud required** | No | Free tier limited | Optional | No |
+| **Lines to first test** | 5 | 15+ | 20+ (YAML) | 10+ |
+
+**Vigil is built for developers who want pytest-like simplicity, not a platform.**
+
 ## Install
 
 ```bash
