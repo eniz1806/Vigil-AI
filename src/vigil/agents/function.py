@@ -23,21 +23,56 @@ class FunctionAgent:
 
         agent = FunctionAgent(my_chatbot)
         result = agent.run("Hello!")
+
+        # Async functions work too:
+        async def my_async_agent(message: str) -> str:
+            return await some_api.call(message)
+
+        agent = FunctionAgent(my_async_agent)
+        result = await agent.arun("Hello!")
     """
 
     def __init__(self, func: Callable, **default_kwargs: Any) -> None:
         self.func = func
         self.default_kwargs = default_kwargs
+        self._is_async = inspect.iscoroutinefunction(func)
 
     def run(self, input: str, **kwargs: Any) -> TestResult:
+        """Run the agent synchronously. Async functions are handled automatically."""
         merged = {**self.default_kwargs, **kwargs}
         timer = Timer()
 
         with timer:
-            if inspect.iscoroutinefunction(self.func):
-                raw = asyncio.get_event_loop().run_until_complete(self.func(input, **merged))
+            if self._is_async:
+                try:
+                    loop = asyncio.get_running_loop()
+                except RuntimeError:
+                    loop = None
+
+                if loop and loop.is_running():
+                    import concurrent.futures
+                    with concurrent.futures.ThreadPoolExecutor() as pool:
+                        raw = pool.submit(
+                            asyncio.run, self.func(input, **merged)
+                        ).result()
+                else:
+                    raw = asyncio.run(self.func(input, **merged))
             else:
                 raw = self.func(input, **merged)
+
+        return self._to_result(raw, timer.elapsed)
+
+    async def arun(self, input: str, **kwargs: Any) -> TestResult:
+        """Run the agent asynchronously."""
+        merged = {**self.default_kwargs, **kwargs}
+        timer = Timer()
+
+        with timer:
+            if self._is_async:
+                raw = await self.func(input, **merged)
+            else:
+                loop = asyncio.get_running_loop()
+                raw = await loop.run_in_executor(None, self.func, input, **merged) if not merged else await loop.run_in_executor(None, lambda: self.func(input, **merged))
 
         return self._to_result(raw, timer.elapsed)
 

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "vigil-ai"
-version = "0.1.0"
+version = "0.2.0"
 description = "The testing framework for AI agents. Fast, framework-agnostic, CI-ready."
 readme = "README.md"
 license = "Apache-2.0"
@@ -35,7 +35,8 @@ openai = ["openai>=1.0"]
 anthropic = ["anthropic>=0.20"]
 http = ["httpx>=0.25"]
 semantic = ["numpy>=1.24"]
-all = ["openai>=1.0", "anthropic>=0.20", "httpx>=0.25", "numpy>=1.24"]
+parallel = ["pytest-xdist>=3.0"]
+all = ["openai>=1.0", "anthropic>=0.20", "httpx>=0.25", "numpy>=1.24", "pytest-xdist>=3.0"]
 dev = ["ruff", "mypy", "pytest-cov"]
 
 [project.scripts]

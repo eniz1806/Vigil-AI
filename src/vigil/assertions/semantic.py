@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+from typing import Any
+
 from vigil.core.results import TestResult
 
 
@@ -45,11 +48,36 @@ def _cosine_similarity_numpy(text1: str, text2: str) -> float:
     return float(dot / (norm1 * norm2))
 
 
+def _embedding_similarity_openai(text1: str, text2: str, model: str) -> float:
+    """Cosine similarity using OpenAI embeddings."""
+    try:
+        from openai import OpenAI
+        import numpy as np
+    except ImportError:
+        raise ImportError(
+            "openai and numpy are required for embedding similarity. "
+            "Install with: pip install vigil-ai[openai,semantic]"
+        )
+
+    client = OpenAI()
+    response = client.embeddings.create(input=[text1, text2], model=model)
+    vec1 = np.array(response.data[0].embedding)
+    vec2 = np.array(response.data[1].embedding)
+
+    dot = np.dot(vec1, vec2)
+    norm1 = np.linalg.norm(vec1)
+    norm2 = np.linalg.norm(vec2)
+    if norm1 == 0 or norm2 == 0:
+        return 0.0
+    return float(dot / (norm1 * norm2))
+
+
 def assert_semantic_match(
     result: TestResult | str,
     reference: str,
     threshold: float = 0.7,
     method: str = "auto",
+    embedding_model: str = "text-embedding-3-small",
 ) -> None:
     """Assert that the output is semantically similar to the reference text.
 
@@ -57,27 +85,41 @@ def assert_semantic_match(
         result: The agent output to check.
         reference: The reference text to compare against.
         threshold: Minimum similarity score (0.0 to 1.0).
-        method: Similarity method — "auto", "word_overlap", or "cosine".
+        method: Similarity method:
+            - "auto": Uses embeddings if OPENAI_API_KEY is set, else cosine, else word_overlap
+            - "word_overlap": Jaccard index of word sets (no deps)
+            - "cosine": TF-IDF cosine similarity (needs numpy)
+            - "embedding": OpenAI embedding cosine similarity (needs openai + numpy)
+        embedding_model: OpenAI embedding model (only used with "embedding" method).
     """
     output = _get_output(result)
 
     if method == "auto":
-        try:
-            import numpy  # noqa: F401
-
-            score = _cosine_similarity_numpy(output, reference)
-        except ImportError:
-            score = _word_overlap_similarity(output, reference)
+        if os.environ.get("OPENAI_API_KEY"):
+            try:
+                score = _embedding_similarity_openai(output, reference, embedding_model)
+            except Exception:
+                score = _cosine_similarity_numpy(output, reference)
+        else:
+            try:
+                import numpy  # noqa: F401
+                score = _cosine_similarity_numpy(output, reference)
+            except ImportError:
+                score = _word_overlap_similarity(output, reference)
     elif method == "word_overlap":
         score = _word_overlap_similarity(output, reference)
     elif method == "cosine":
         score = _cosine_similarity_numpy(output, reference)
+    elif method == "embedding":
+        score = _embedding_similarity_openai(output, reference, embedding_model)
     else:
-        raise ValueError(f"Unknown method: {method}. Use 'auto', 'word_overlap', or 'cosine'.")
+        raise ValueError(
+            f"Unknown method: {method}. Use 'auto', 'word_overlap', 'cosine', or 'embedding'."
+        )
 
     if score < threshold:
         raise AssertionError(
-            f"Semantic similarity {score:.3f} below threshold {threshold:.3f}\n"
+            f"Semantic similarity {score:.3f} below threshold {threshold:.3f} (method={method})\n"
             f"Output: '{output[:100]}{'...' if len(output) > 100 else ''}'\n"
             f"Reference: '{reference[:100]}{'...' if len(reference) > 100 else ''}'"
         )

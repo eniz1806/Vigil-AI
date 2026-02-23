@@ -2,9 +2,63 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import click
 
 from vigil import __version__
+
+
+_INIT_CONFIG = """# Vigil configuration
+defaults:
+  cost_threshold: 0.05
+  latency_threshold: 5.0
+  semantic_threshold: 0.85
+
+reporting:
+  format: terminal
+  verbose: false
+"""
+
+_INIT_TEST = '''"""Example Vigil test — replace with your own agent."""
+
+from vigil import test, FunctionAgent, assert_contains
+
+
+# Replace this with your real agent
+def my_agent(message: str) -> str:
+    return f"You said: {message}"
+
+
+agent = FunctionAgent(my_agent)
+
+
+@test()
+def test_basic_response():
+    result = agent.run("Hello!")
+    assert_contains(result, "Hello")
+
+
+@test()
+def test_no_errors():
+    result = agent.run("Tell me something")
+    assert_contains(result, "Tell me something")
+'''
+
+_INIT_CI = """name: AI Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install vigil-ai
+      - run: vigil run
+"""
 
 
 @click.group()
@@ -17,7 +71,8 @@ def main() -> None:
 @click.argument("paths", nargs=-1)
 @click.option("--report", type=click.Choice(["terminal", "json", "html"]), default="terminal")
 @click.option("-v", "--verbose", is_flag=True)
-def run(paths: tuple[str, ...], report: str, verbose: bool) -> None:
+@click.option("-p", "--parallel", type=int, default=None, help="Number of parallel workers.")
+def run(paths: tuple[str, ...], report: str, verbose: bool, parallel: int | None) -> None:
     """Run AI agent tests."""
     from vigil.core.runner import run as run_tests
 
@@ -25,8 +80,52 @@ def run(paths: tuple[str, ...], report: str, verbose: bool) -> None:
         paths=list(paths) if paths else None,
         report=report,
         verbose=verbose,
+        parallel=parallel,
     )
     raise SystemExit(exit_code)
+
+
+@main.command()
+@click.option("--dir", "directory", default=".", help="Directory to initialize.")
+@click.option("--ci", is_flag=True, help="Also generate GitHub Actions workflow.")
+def init(directory: str, ci: bool) -> None:
+    """Initialize a new Vigil project with config and example test."""
+    base = Path(directory).resolve()
+
+    # vigil.yaml
+    config_path = base / "vigil.yaml"
+    if config_path.exists():
+        click.echo(f"  skip  {config_path} (already exists)")
+    else:
+        config_path.write_text(_INIT_CONFIG)
+        click.echo(f"  create  {config_path}")
+
+    # tests directory
+    tests_dir = base / "tests"
+    tests_dir.mkdir(exist_ok=True)
+
+    test_path = tests_dir / "test_agent.py"
+    if test_path.exists():
+        click.echo(f"  skip  {test_path} (already exists)")
+    else:
+        test_path.write_text(_INIT_TEST)
+        click.echo(f"  create  {test_path}")
+
+    # CI workflow
+    if ci:
+        workflows_dir = base / ".github" / "workflows"
+        workflows_dir.mkdir(parents=True, exist_ok=True)
+        ci_path = workflows_dir / "ai-tests.yml"
+        if ci_path.exists():
+            click.echo(f"  skip  {ci_path} (already exists)")
+        else:
+            ci_path.write_text(_INIT_CI)
+            click.echo(f"  create  {ci_path}")
+
+    click.echo()
+    click.echo("Vigil project initialized! Next steps:")
+    click.echo("  1. Edit tests/test_agent.py with your agent")
+    click.echo("  2. Run: vigil run")
 
 
 @main.group()

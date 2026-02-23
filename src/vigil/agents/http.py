@@ -16,6 +16,9 @@ class HTTPAgent:
     Example:
         agent = HTTPAgent("http://localhost:8000/chat")
         result = agent.run("Hello!")
+
+        # Async:
+        result = await agent.arun("Hello!")
     """
 
     def __init__(
@@ -51,6 +54,40 @@ class HTTPAgent:
                 timeout=self.timeout,
             )
             response.raise_for_status()
+
+        data = response.json()
+
+        return TestResult(
+            output=str(data.get(self.output_key, "")),
+            cost=data.get("cost"),
+            tokens_input=data.get("tokens_input"),
+            tokens_output=data.get("tokens_output"),
+            model=data.get("model"),
+            latency=timer.elapsed,
+            metadata=data.get("metadata", {}),
+        )
+
+    async def arun(self, input: str, **kwargs: Any) -> TestResult:
+        """Run the agent asynchronously using httpx.AsyncClient."""
+        try:
+            import httpx
+        except ImportError:
+            raise ImportError(
+                "httpx is required for HTTPAgent. Install with: pip install vigil-ai[http]"
+            )
+
+        payload = {self.input_key: input, **kwargs}
+        timer = Timer()
+
+        with timer:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.url,
+                    json=payload,
+                    headers=self.headers,
+                    timeout=self.timeout,
+                )
+                response.raise_for_status()
 
         data = response.json()
 

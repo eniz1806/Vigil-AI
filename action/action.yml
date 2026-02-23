@@ -1,0 +1,78 @@
+name: "Vigil AI Tests"
+description: "Run AI agent tests with Vigil"
+branding:
+  icon: "eye"
+  color: "purple"
+
+inputs:
+  path:
+    description: "Path to test files or directory"
+    required: false
+    default: "."
+  python-version:
+    description: "Python version to use"
+    required: false
+    default: "3.12"
+  report:
+    description: "Report format: terminal, json, or html"
+    required: false
+    default: "terminal"
+  extra-deps:
+    description: "Extra vigil dependencies to install (e.g. 'openai,anthropic')"
+    required: false
+    default: ""
+  parallel:
+    description: "Number of parallel workers (requires vigil-ai[parallel])"
+    required: false
+    default: ""
+
+outputs:
+  exit-code:
+    description: "Test exit code (0 = all passed)"
+    value: ${{ steps.run-tests.outputs.exit-code }}
+  report-path:
+    description: "Path to generated report file (if html format)"
+    value: ${{ steps.run-tests.outputs.report-path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Vigil
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.extra-deps }}" ]; then
+          pip install "vigil-ai[${{ inputs.extra-deps }}]"
+        else
+          pip install vigil-ai
+        fi
+
+    - name: Install project dependencies
+      shell: bash
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        elif [ -f pyproject.toml ]; then
+          pip install -e . 2>/dev/null || true
+        fi
+
+    - name: Run Vigil tests
+      id: run-tests
+      shell: bash
+      run: |
+        ARGS="${{ inputs.path }}"
+        if [ "${{ inputs.report }}" != "terminal" ]; then
+          ARGS="$ARGS --report ${{ inputs.report }}"
+        fi
+        if [ -n "${{ inputs.parallel }}" ]; then
+          ARGS="$ARGS --parallel ${{ inputs.parallel }}"
+        fi
+        vigil run $ARGS
+        echo "exit-code=$?" >> $GITHUB_OUTPUT
+        if [ "${{ inputs.report }}" = "html" ]; then
+          echo "report-path=vigil-report.html" >> $GITHUB_OUTPUT
+        fi

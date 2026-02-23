@@ -1,0 +1,55 @@
+site_name: Vigil
+site_description: The testing framework for AI agents
+site_url: https://vigil-ai.github.io/vigil
+
+repo_name: vigil-ai/vigil
+repo_url: https://github.com/vigil-ai/vigil
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - Guide:
+    - Assertions: guide/assertions.md
+    - Agent Types: guide/agents.md
+    - Snapshot Testing: guide/snapshots.md
+    - LLM-as-Judge: guide/llm-judge.md
+    - Cost Tracking: guide/cost-tracking.md
+    - CI Integration: guide/ci.md
+    - Plugins: guide/plugins.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
