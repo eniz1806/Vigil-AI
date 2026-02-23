@@ -1,6 +1,24 @@
-# Vigil
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo-with-text.svg">
+    <img alt="Vigil" src="assets/logo-with-text.svg" width="480">
+  </picture>
+</p>
 
-**The testing framework for AI agents. Fast, framework-agnostic, CI-ready.**
+<p align="center">
+  <strong>The testing framework for AI agents. Fast, framework-agnostic, CI-ready.</strong>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> &middot;
+  <a href="#features">Features</a> &middot;
+  <a href="#assertions">Assertions</a> &middot;
+  <a href="#agent-types">Agent Types</a> &middot;
+  <a href="#ci-integration">CI Integration</a>
+</p>
+
+---
 
 Vigil makes testing AI agents and LLM applications as easy as writing pytest tests. Write tests in plain Python, run them in CI, catch regressions before production.
 

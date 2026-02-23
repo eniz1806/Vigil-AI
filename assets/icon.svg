@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- V-shaped robot head / AI guardian -->
+
+  <!-- Antenna / signal -->
+  <line x1="64" y1="6" x2="64" y2="20" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="64" cy="5" r="3" fill="#818CF8"/>
+  <circle cx="64" cy="5" r="5" fill="#6366F1" opacity="0.2"/>
+
+  <!-- Head - V-shaped angular robot face -->
+  <path d="M28 32 L64 28 L100 32 L96 72 L82 88 L64 94 L46 88 L32 72Z" fill="#6366F1" opacity="0.1"/>
+  <path d="M28 32 L64 28 L100 32 L96 72 L82 88 L64 94 L46 88 L32 72Z" stroke="#6366F1" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+
+  <!-- Visor / eye strip -->
+  <path d="M38 48 L90 48 L86 60 L42 60Z" fill="#1E1B4B"/>
+  <path d="M38 48 L90 48 L86 60 L42 60Z" stroke="#6366F1" stroke-width="2" stroke-linejoin="round" fill="none"/>
+
+  <!-- Left eye glow -->
+  <circle cx="52" cy="54" r="5" fill="#818CF8"/>
+  <circle cx="52" cy="54" r="3" fill="#C7D2FE"/>
+  <circle cx="52" cy="54" r="8" fill="#6366F1" opacity="0.15"/>
+
+  <!-- Right eye glow -->
+  <circle cx="76" cy="54" r="5" fill="#818CF8"/>
+  <circle cx="76" cy="54" r="3" fill="#C7D2FE"/>
+  <circle cx="76" cy="54" r="8" fill="#6366F1" opacity="0.15"/>
+
+  <!-- Center nose line -->
+  <line x1="64" y1="60" x2="64" y2="72" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Mouth / vent lines -->
+  <line x1="52" y1="76" x2="76" y2="76" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+  <line x1="55" y1="81" x2="73" y2="81" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Side panels / cheek vents -->
+  <line x1="32" y1="50" x2="26" y2="46" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="32" y1="56" x2="26" y2="56" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="32" y1="62" x2="26" y2="66" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+
+  <line x1="96" y1="50" x2="102" y2="46" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="96" y1="56" x2="102" y2="56" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="96" y1="62" x2="102" y2="66" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- V mark on forehead -->
+  <path d="M54 36 L64 44 L74 36" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Shoulders / body hint -->
+  <path d="M40 96 L28 110 L44 108 L64 114 L84 108 L100 110 L88 96" stroke="#6366F1" stroke-width="2" stroke-linejoin="round" fill="none" opacity="0.5"/>
+
+  <!-- Circuit traces on body -->
+  <circle cx="44" cy="106" r="2" fill="#818CF8" opacity="0.5"/>
+  <circle cx="84" cy="106" r="2" fill="#818CF8" opacity="0.5"/>
+</svg>
