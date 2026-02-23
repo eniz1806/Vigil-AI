@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="assets/logo-with-text.svg">
-    <img alt="Vigil" src="assets/logo-with-text.svg" width="480">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eniz1806/Vigil-AI/main/assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/eniz1806/Vigil-AI/main/assets/logo-with-text.svg">
+    <img alt="Vigil" src="https://raw.githubusercontent.com/eniz1806/Vigil-AI/main/assets/logo-with-text.svg" width="480">
   </picture>
 </p>
 

@@ -1,6 +1,6 @@
 """Vigil — The testing framework for AI agents."""
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 from vigil.core.decorators import test
 from vigil.core.results import TestResult
