@@ -3,7 +3,7 @@
 This is the most powerful assertion in Vigil. Instead of pattern matching,
 an LLM grades the output against your criteria.
 
-Requires: pip install vigil-ai[openai] or vigil-ai[anthropic]
+Requires: pip install vigil-eval[openai] or vigil-eval[anthropic]
 """
 
 from __future__ import annotations
@@ -59,7 +59,7 @@ def _call_openai(prompt: str, model: str) -> str:
         from openai import OpenAI
     except ImportError:
         raise ImportError(
-            "OpenAI is required for LLM-as-judge. Install with: pip install vigil-ai[openai]"
+            "OpenAI is required for LLM-as-judge. Install with: pip install vigil-eval[openai]"
         )
     client = OpenAI()
     response = client.chat.completions.create(
@@ -76,7 +76,7 @@ def _call_anthropic(prompt: str, model: str) -> str:
         from anthropic import Anthropic
     except ImportError:
         raise ImportError(
-            "Anthropic is required for LLM-as-judge. Install with: pip install vigil-ai[anthropic]"
+            "Anthropic is required for LLM-as-judge. Install with: pip install vigil-eval[anthropic]"
         )
     client = Anthropic()
     response = client.messages.create(

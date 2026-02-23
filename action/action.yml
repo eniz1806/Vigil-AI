@@ -22,7 +22,7 @@ inputs:
     required: false
     default: ""
   parallel:
-    description: "Number of parallel workers (requires vigil-ai[parallel])"
+    description: "Number of parallel workers (requires vigil-eval[parallel])"
     required: false
     default: ""
 
@@ -46,9 +46,9 @@ runs:
       shell: bash
       run: |
         if [ -n "${{ inputs.extra-deps }}" ]; then
-          pip install "vigil-ai[${{ inputs.extra-deps }}]"
+          pip install "vigil-eval[${{ inputs.extra-deps }}]"
         else
-          pip install vigil-ai
+          pip install vigil-eval
         fi
 
     - name: Install project dependencies

@@ -1,6 +1,6 @@
 """Example — testing an OpenAI-based chatbot.
 
-Requires: pip install vigil-ai[openai]
+Requires: pip install vigil-eval[openai]
 Set OPENAI_API_KEY in your environment.
 """
 

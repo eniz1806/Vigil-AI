@@ -23,7 +23,7 @@
 Vigil makes testing AI agents and LLM applications as easy as writing pytest tests. Write tests in plain Python, run them in CI, catch regressions before production.
 
 ```bash
-pip install vigil-ai
+pip install vigil-eval
 ```
 
 ## Quick Start
@@ -126,7 +126,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install vigil-ai
+      - run: pip install vigil-eval
       - run: vigil run --report json > results.json
 ```
 

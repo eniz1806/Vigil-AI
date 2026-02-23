@@ -46,5 +46,5 @@ vigil run
 ## Install
 
 ```bash
-pip install vigil-ai
+pip install vigil-eval
 ```

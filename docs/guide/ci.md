@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: vigil-ai/vigil@v1
+      - uses: vigil-eval/vigil@v1
         with:
           path: tests/
           report: terminal
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install vigil-ai
+      - run: pip install vigil-eval
       - run: vigil run
 ```
 
@@ -59,7 +59,7 @@ jobs:
 ## Parallel execution
 
 ```bash
-pip install "vigil-ai[parallel]"
+pip install "vigil-eval[parallel]"
 vigil run --parallel 4
 ```
 

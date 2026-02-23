@@ -3,26 +3,26 @@
 ## Basic
 
 ```bash
-pip install vigil-ai
+pip install vigil-eval
 ```
 
 ## With extras
 
 ```bash
 # OpenAI support (for LLM-as-judge, embeddings)
-pip install "vigil-ai[openai]"
+pip install "vigil-eval[openai]"
 
 # Anthropic support
-pip install "vigil-ai[anthropic]"
+pip install "vigil-eval[anthropic]"
 
 # HTTP agent testing
-pip install "vigil-ai[http]"
+pip install "vigil-eval[http]"
 
 # Parallel test execution
-pip install "vigil-ai[parallel]"
+pip install "vigil-eval[parallel]"
 
 # Everything
-pip install "vigil-ai[all]"
+pip install "vigil-eval[all]"
 ```
 
 ## Requirements

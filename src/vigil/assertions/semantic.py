@@ -56,7 +56,7 @@ def _embedding_similarity_openai(text1: str, text2: str, model: str) -> float:
     except ImportError:
         raise ImportError(
             "openai and numpy are required for embedding similarity. "
-            "Install with: pip install vigil-ai[openai,semantic]"
+            "Install with: pip install vigil-eval[openai,semantic]"
         )
 
     client = OpenAI()

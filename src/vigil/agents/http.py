@@ -40,7 +40,7 @@ class HTTPAgent:
             import httpx
         except ImportError:
             raise ImportError(
-                "httpx is required for HTTPAgent. Install with: pip install vigil-ai[http]"
+                "httpx is required for HTTPAgent. Install with: pip install vigil-eval[http]"
             )
 
         payload = {self.input_key: input, **kwargs}
@@ -73,7 +73,7 @@ class HTTPAgent:
             import httpx
         except ImportError:
             raise ImportError(
-                "httpx is required for HTTPAgent. Install with: pip install vigil-ai[http]"
+                "httpx is required for HTTPAgent. Install with: pip install vigil-eval[http]"
             )
 
         payload = {self.input_key: input, **kwargs}

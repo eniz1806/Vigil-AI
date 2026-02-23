@@ -5,7 +5,7 @@ The most powerful feature in Vigil. Instead of pattern matching, an LLM evaluate
 ## Setup
 
 ```bash
-pip install "vigil-ai[openai]"   # or vigil-ai[anthropic]
+pip install "vigil-eval[openai]"   # or vigil-eval[anthropic]
 ```
 
 Set your API key:
