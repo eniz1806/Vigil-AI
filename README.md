@@ -28,6 +28,10 @@
 
 ---
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/eniz1806/Vigil-AI/main/assets/demo.gif" alt="Vigil Demo" width="800">
+</p>
+
 ## Why Vigil?
 
 **40% of agentic AI projects** risk cancellation due to reliability issues. Only **52% of teams** run any form of evaluation. The rest ship and pray.
