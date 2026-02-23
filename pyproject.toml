@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vigil-ai"
+version = "0.1.0"
+description = "The testing framework for AI agents. Fast, framework-agnostic, CI-ready."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [{ name = "Vigil AI" }]
+keywords = ["ai", "testing", "llm", "agents", "evaluation", "evals", "pytest"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "pytest>=7.0",
+    "click>=8.0",
+    "rich>=13.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.20"]
+http = ["httpx>=0.25"]
+semantic = ["numpy>=1.24"]
+all = ["openai>=1.0", "anthropic>=0.20", "httpx>=0.25", "numpy>=1.24"]
+dev = ["ruff", "mypy", "pytest-cov"]
+
+[project.scripts]
+vigil = "vigil.cli:main"
+
+[project.entry-points."pytest11"]
+vigil = "vigil.plugins.pytest_plugin"
+
+[project.urls]
+Homepage = "https://github.com/vigil-ai/vigil"
+Repository = "https://github.com/vigil-ai/vigil"
+Issues = "https://github.com/vigil-ai/vigil/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vigil"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
