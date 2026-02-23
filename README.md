@@ -11,6 +11,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/eniz1806/Vigil-AI/actions/workflows/ci.yml"><img src="https://github.com/eniz1806/Vigil-AI/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://pypi.org/project/vigil-eval/"><img src="https://img.shields.io/pypi/v/vigil-eval?color=6366F1&label=PyPI" alt="PyPI"></a>
   <a href="https://pypi.org/project/vigil-eval/"><img src="https://img.shields.io/pypi/pyversions/vigil-eval?color=6366F1" alt="Python"></a>
   <a href="https://github.com/eniz1806/Vigil-AI/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-6366F1" alt="License"></a>
